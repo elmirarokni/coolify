@@ -22,7 +22,14 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-c
     chmod +x /usr/local/bin/docker-compose  &&\
     docker-compose --version
     
-RUN  wget -q https://get.coollabs.io/coolify/install.sh -O install.sh
+#add directory to "vitual machine"
+ADD ./docker-compose.yml /tmp/docker-compose.yml
 
-EXPOSE 3000
- CMD ["./install.sh", "-f"] 
+ADD ./
+WORKDIR /
+
+#run docker-compose
+RUN sudo docker-compose up -d
+
+EXPOSE 3000 
+CMD ["bash"]
