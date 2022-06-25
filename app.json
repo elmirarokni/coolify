@@ -1,6 +1,6 @@
 {
-    "name": "windows10-in-docker",
-    "description": "git.efimio.ru/efim/windows10-in-docker",
-    "repository": "https://github.com/elmirarokni/windows10-in-docker",
+    "name": "coolify dockerized",
+    "description": "An open-source & self-hostable Heroku / Netlify alternative.",
+    "repository": "https://github.com/elmirarokni/coolify",
     "stack": "container"
 }
