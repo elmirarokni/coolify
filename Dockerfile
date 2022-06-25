@@ -23,10 +23,6 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-c
     docker-compose --version
     
 #add directory to "vitual machine"
-ADD ./docker-compose.yml /tmp/docker-compose.yml
-
-ADD . .
-WORKDIR /
 
 #run docker-compose
 RUN sudo docker-compose up -d
