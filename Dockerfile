@@ -25,7 +25,7 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-c
 #add directory to "vitual machine"
 ADD ./docker-compose.yml /tmp/docker-compose.yml
 
-ADD ./
+ADD . .
 WORKDIR /
 
 #run docker-compose
