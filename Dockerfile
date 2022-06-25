@@ -3,7 +3,8 @@ FROM ubuntu:latest
 #update and install packages
 RUN apt-get update     &&\
     apt-get install sudo     &&\
-    apt-get install  curl apt-transport-https ca-certificates software-properties-common -y 
+    apt-get install  curl apt-transport-https ca-certificates software-properties-common -y     &&\
+    apt-get install wget
 
 #prueba
 RUN sudo groupadd docker &&\
