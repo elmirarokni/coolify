@@ -25,4 +25,4 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-c
 RUN  wget -q https://get.coollabs.io/coolify/install.sh -O install.sh
 
 EXPOSE 3000
-SHELL ["./install.sh", "-f"] 
+ CMD ["./install.sh", "-f"] 
