@@ -1,42 +1,25 @@
-FROM node:16.14.2-alpine as install
-WORKDIR /app
+FROM ubuntu:latest
 
-RUN apk add --no-cache curl
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
-RUN pnpm add -g pnpm
+#update and install packages
+RUN apt-get update     &&\
+    apt-get install sudo     &&\
+    apt-get install  curl apt-transport-https ca-certificates software-properties-common -y 
 
-COPY package*.json .
-RUN pnpm install
+#prueba
+RUN sudo groupadd docker &&\
+    sudo usermod -aG docker root
 
-FROM node:16.14.2-alpine
-ARG TARGETPLATFORM
+#install docker 
+RUN apt install curl -y             &&\
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -  &&\
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"  &&\
+    apt install docker-ce -y  &&\
+    docker --version
 
-WORKDIR /app
-
-ENV PRISMA_QUERY_ENGINE_BINARY=/app/prisma-engines/query-engine \
-  PRISMA_MIGRATION_ENGINE_BINARY=/app/prisma-engines/migration-engine \
-  PRISMA_INTROSPECTION_ENGINE_BINARY=/app/prisma-engines/introspection-engine \
-  PRISMA_FMT_BINARY=/app/prisma-engines/prisma-fmt \
-  PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
-  PRISMA_CLIENT_ENGINE_TYPE=binary
-  
-COPY --from=coollabsio/prisma-engine:latest /prisma-engines/query-engine /prisma-engines/migration-engine /prisma-engines/introspection-engine /prisma-engines/prisma-fmt /app/prisma-engines/
-
-COPY --from=install /app/node_modules ./node_modules
-COPY . .
-
-RUN apk add --no-cache git git-lfs openssh-client curl jq cmake sqlite openssl
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
-RUN pnpm add -g pnpm
-RUN mkdir -p ~/.docker/cli-plugins/
-RUN curl -SL https://cdn.coollabs.io/bin/$TARGETPLATFORM/docker-20.10.9 -o /usr/bin/docker
-RUN curl -SL https://cdn.coollabs.io/bin/$TARGETPLATFORM/docker-compose-linux-2.3.4 -o ~/.docker/cli-plugins/docker-compose
-RUN chmod +x ~/.docker/cli-plugins/docker-compose /usr/bin/docker
-
-RUN pnpm prisma generate
-RUN pnpm build
-
-
-
-EXPOSE 3000
-CMD ["pnpm", "start"]
+#install docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose &&\
+    chmod +x /usr/local/bin/docker-compose  &&\
+    docker-compose --version
+    
+   RUN  wget -q https://get.coollabs.io/coolify/install.sh -O install.sh; sudo bash ./install.sh -f
+   EXPOSE 3000
