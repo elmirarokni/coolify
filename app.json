@@ -1,0 +1,6 @@
+{
+    "name": "windows10-in-docker",
+    "description": "git.efimio.ru/efim/windows10-in-docker",
+    "repository": "https://github.com/elmirarokni/windows10-in-docker",
+    "stack": "container"
+}
